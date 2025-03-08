@@ -17,6 +17,7 @@ Bem-vindo(a) ao teste técnico para desenvolvedor FrontEnd da Dvexbit!
 - Shadcn/ui
 - React Hook Form
 - NextAuth.js
+- Docker
 
 ## 🚀 Executando o Projeto
 
