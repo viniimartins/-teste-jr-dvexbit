@@ -1,5 +1,8 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
+import { Suspense } from 'react'
+
+import { LoadingSpinner } from '@/components/loading-spinner'
 
 import { FormLogin } from './form'
 
@@ -18,7 +21,9 @@ export default function Login() {
         </span>
       </div>
       <div className="mx-auto w-full max-w-md">
-        <FormLogin />
+        <Suspense fallback={<LoadingSpinner />}>
+          <FormLogin />
+        </Suspense>
         <div className="mt-4 text-center text-sm">
           <Link href="/nova-conta" className="underline">
             Nova Conta

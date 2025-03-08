@@ -7,11 +7,11 @@ import { authenticateUser } from '../../utils/auth'
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const decodedToken = authenticateUser(request) as DecodedToken
-    const { id } = params
+    const { id } = await params
 
     await prisma.task.delete({
       where: {
@@ -31,11 +31,11 @@ export async function DELETE(
 
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const decodedToken = authenticateUser(request) as DecodedToken
-    const { id } = params
+    const { id } = await params
     const { name, description, status } = await request.json()
 
     const updatedTask = await prisma.task.update({

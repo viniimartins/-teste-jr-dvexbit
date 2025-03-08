@@ -2,6 +2,7 @@ import { jwtDecode } from 'jwt-decode'
 import { type NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 
+import { env } from '@/env'
 import { api } from '@/service/api'
 import { DecodedToken } from '@/types/decoded-token'
 
@@ -19,7 +20,7 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         const { data } = await api.post<SignIn>(
-          'http://localhost:3000/api/auth/session',
+          `${env.NEXT_PUBLIC_API_URL}/api/auth/session`,
           {
             email: credentials?.email,
             password: credentials?.password,
