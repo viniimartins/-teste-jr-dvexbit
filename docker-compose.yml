@@ -1,0 +1,9 @@
+services:
+  dvexbit:
+    image: bitnami/postgresql
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRESQL_USERNAME=dvexbit
+      - POSTGRESQL_PASSWORD=dvexbit
+      - POSTGRESQL_DATABASE=api-dvexbit
