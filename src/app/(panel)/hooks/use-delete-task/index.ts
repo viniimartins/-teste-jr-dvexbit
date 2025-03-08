@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { toast } from 'sonner'
 
-import { toast } from '@/hooks/use-toast'
 import { api } from '@/service/api'
 import { QueryKeyProps } from '@/types/queryKeyProps'
 
@@ -38,9 +38,7 @@ export function useDeleteTask({ queryKey }: QueryKeyProps) {
     },
     onError: (_error, _variables, context) => {
       queryClient.setQueryData(queryKey, context?.previousItems)
-      toast({
-        variant: 'destructive',
-        title: 'Opss, algo deu errado!',
+      toast('Opss, algo deu errado!', {
         description: 'Erro ao excluir a task.',
       })
     },

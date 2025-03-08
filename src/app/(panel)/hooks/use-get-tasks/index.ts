@@ -2,21 +2,30 @@ import type { TaskStatus } from '@prisma/client'
 import { useQuery } from '@tanstack/react-query'
 
 import { api } from '@/service/api'
+import { TaskMock } from '@/shared/mock/tasks'
 
 import type { ITask } from '../../types'
 
-async function get() {
-  const { data } = await api.get<Record<TaskStatus, ITask[]>>('/task')
+interface Props {
+  name: string
+  status: TaskStatus
+}
+
+async function get(name: string, status: TaskStatus) {
+  const { data } = await api.get<ITask[]>('/task', {
+    params: { name, status },
+  })
 
   return data
 }
 
-export function useGetTasks() {
-  const queryKey = ['get-tasks']
+export function useGetTasks({ name, status }: Props) {
+  const queryKey = ['get-tasks', name, status]
 
   const query = useQuery({
     queryKey,
-    queryFn: get,
+    queryFn: () => get(name, status),
+    placeholderData: TaskMock,
   })
 
   return { ...query, queryKey }

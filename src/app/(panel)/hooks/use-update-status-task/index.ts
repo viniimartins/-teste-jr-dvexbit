@@ -1,7 +1,7 @@
 import type { TaskStatus } from '@prisma/client'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { toast } from 'sonner'
 
-import { toast } from '@/hooks/use-toast'
 import { api } from '@/service/api'
 import type { QueryKeyProps } from '@/types/queryKeyProps'
 
@@ -32,9 +32,7 @@ export function useUpdateStatusTask({ queryKey }: QueryKeyProps) {
     mutationKey: ['update-status-task'],
     onSuccess: () => queryClient.invalidateQueries({ queryKey }),
     onError: () => {
-      toast({
-        variant: 'destructive',
-        title: 'Opss, algo deu errado!',
+      toast('Opss, algo deu errado!', {
         description: 'Erro ao editar a task.',
       })
     },

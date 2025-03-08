@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { toast } from 'sonner'
 
-import { toast } from '@/hooks/use-toast'
 import { api } from '@/service/api'
 import { QueryKeyProps } from '@/types/queryKeyProps'
 
@@ -29,9 +29,7 @@ export function useCreateTask({ queryKey }: QueryKeyProps) {
     mutationKey: ['create-task'],
     onSuccess: () => queryClient.invalidateQueries({ queryKey }),
     onError: () => {
-      toast({
-        variant: 'destructive',
-        title: 'Opss, algo deu errado!',
+      toast('Opss, algo deu errado!', {
         description: 'Erro ao criar a task.',
       })
     },
