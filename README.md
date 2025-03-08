@@ -4,6 +4,9 @@
 
 Bem-vindo(a) ao teste técnico para desenvolvedor FrontEnd da Dvexbit!
 
+
+## Projeto em produção - https://dvexbit.vercel.app/
+
 ## 🛠️ Ferramentas e Tecnologias
 
 - Prisma
@@ -18,6 +21,8 @@ Bem-vindo(a) ao teste técnico para desenvolvedor FrontEnd da Dvexbit!
 - React Hook Form
 - NextAuth.js
 - Docker
+- Vercel
+- Neon
 
 ## 🚀 Executando o Projeto
 
