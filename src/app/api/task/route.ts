@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server'
 import prisma from '@/lib/prisma'
 import type { DecodedToken } from '@/types/decoded-token'
 
-import { authenticateUser } from './utils/auth'
+import { authenticateUser } from '../utils/auth'
 
 export async function GET(request: Request) {
   const decodedToken = authenticateUser(request) as DecodedToken
@@ -16,7 +16,7 @@ export async function GET(request: Request) {
   const tasks = await prisma.task.findMany({
     where: {
       user_id: decodedToken.id,
-      ...(name && { contains: name }),
+      ...(name && { name: { contains: name, mode: 'insensitive' } }),
       ...(status && { status: status as TaskStatus }),
     },
   })

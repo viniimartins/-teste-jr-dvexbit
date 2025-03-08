@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server'
 import prisma from '@/lib/prisma'
 import type { DecodedToken } from '@/types/decoded-token'
 
-import { authenticateUser } from '../utils/auth'
+import { authenticateUser } from '../../utils/auth'
 
 export async function DELETE(
   request: Request,

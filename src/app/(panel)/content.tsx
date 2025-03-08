@@ -47,6 +47,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { Skeleton } from '@/components/ui/skeleton'
 import { useModal } from '@/hooks/use-modal'
 import { statusValue } from '@/utils/status'
 
@@ -87,7 +88,7 @@ export function Content() {
   const {
     data: tasks,
     queryKey,
-    // isFetching,
+    isFetching,
   } = useGetTasks({ name: searchNameTaskValue, status: searchStatusValue })
 
   const { mutateAsync: deleteTask } = useDeleteTask({ queryKey })
@@ -140,54 +141,68 @@ export function Content() {
       </div>
 
       <div className="grid grid-cols-2 gap-4">
-        {!tasks && <div>AA</div>}
+        {tasks?.length === 0 && (
+          <p className="text-2xl">
+            Nenhuma{' '}
+            <span className="text-muted-foreground font-semibold">TASK</span>{' '}
+            encontrada!
+          </p>
+        )}
 
-        {tasks?.map((task) => {
-          const { name, status, description, createdAt } = task
+        {isFetching &&
+          tasks?.map((task) => {
+            const { id } = task
 
-          const { variant, statusName } = statusValue(status)
+            return <Skeleton key={id} className="h-96 w-full" />
+          })}
 
-          return (
-            <Card key={task.id} className="h-96 w-full">
-              <CardHeader className="flex-row justify-between">
-                <CardTitle className="truncate text-xl">{name}</CardTitle>
+        {!isFetching &&
+          tasks?.map((task) => {
+            const { name, status, description, createdAt } = task
 
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" className="h-[2rem] w-[2rem] p-0">
-                      <span className="sr-only">Open menu</span>
-                      <MoreHorizontal className="h-[1rem] w-[1rem]" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem
-                      onClick={() => actionsModalTask.open(task)}
-                    >
-                      Editar
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                      onClick={() => actionsAlertDialogTask.open(task)}
-                    >
-                      Excluir
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground line-clamp-10 text-base">
-                  {description}
-                </p>
-              </CardContent>
-              <CardFooter className="m-0 mt-auto flex justify-between">
-                <time className="text-xs font-medium">
-                  {format(createdAt, 'dd/MM/yyyy')}
-                </time>
+            const { variant, statusName } = statusValue(status)
 
-                <Badge variant={variant}>{statusName}</Badge>
-              </CardFooter>
-            </Card>
-          )
-        })}
+            return (
+              <Card key={task.id} className="h-96 w-full">
+                <CardHeader className="flex-row justify-between">
+                  <CardTitle className="truncate text-xl">{name}</CardTitle>
+
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" className="h-[2rem] w-[2rem] p-0">
+                        <span className="sr-only">Open menu</span>
+                        <MoreHorizontal className="h-[1rem] w-[1rem]" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem
+                        onClick={() => actionsModalTask.open(task)}
+                      >
+                        Editar
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => actionsAlertDialogTask.open(task)}
+                      >
+                        Excluir
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground line-clamp-10 text-base">
+                    {description}
+                  </p>
+                </CardContent>
+                <CardFooter className="m-0 mt-auto flex justify-between">
+                  <time className="text-xs font-medium">
+                    {format(createdAt, 'dd/MM/yyyy')}
+                  </time>
+
+                  <Badge variant={variant}>{statusName}</Badge>
+                </CardFooter>
+              </Card>
+            )
+          })}
       </div>
 
       <Dialog open={isOpenModalTask} onOpenChange={actionsModalTask.close}>
