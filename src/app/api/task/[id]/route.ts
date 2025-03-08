@@ -11,7 +11,7 @@ export async function DELETE(
 ) {
   try {
     const decodedToken = authenticateUser(request) as DecodedToken
-    const { id } = await params
+    const { id } = params
 
     await prisma.task.delete({
       where: {
@@ -35,7 +35,7 @@ export async function PUT(
 ) {
   try {
     const decodedToken = authenticateUser(request) as DecodedToken
-    const { id } = await params
+    const { id } = params
     const { name, description, status } = await request.json()
 
     const updatedTask = await prisma.task.update({
