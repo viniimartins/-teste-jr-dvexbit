@@ -25,7 +25,7 @@ export function useDeleteTask({ queryKey }: QueryKeyProps) {
     onMutate: async ({ taskId }) => {
       await queryClient.cancelQueries({ queryKey })
 
-      const previousItems = queryClient.getQueryData<ITask[]>(queryKey)
+      const previousTask = queryClient.getQueryData<ITask[]>(queryKey)
 
       queryClient.setQueryData(queryKey, (old?: ITask[]) => {
         if (old) {
@@ -34,10 +34,10 @@ export function useDeleteTask({ queryKey }: QueryKeyProps) {
         return old
       })
 
-      return { previousItems }
+      return { previousTask }
     },
     onError: (_error, _variables, context) => {
-      queryClient.setQueryData(queryKey, context?.previousItems)
+      queryClient.setQueryData(queryKey, context?.previousTask)
       toast('Opss, algo deu errado!', {
         description: 'Erro ao excluir a task.',
       })

@@ -2,7 +2,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { TaskStatus } from '@prisma/client'
 import { QueryKey } from '@tanstack/react-query'
 import { LoaderCircle } from 'lucide-react'
-import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
@@ -43,12 +42,9 @@ const TaskSchema = z.object({
   description: z.string().min(3, {
     message: 'A descrição do Task deve ter pelo menos 3 caracteres.',
   }),
-  status: z.enum(
-    [TaskStatus.PENDING, TaskStatus.IN_PROGRESS, TaskStatus.DONE],
-    {
-      required_error: 'Por favor, selecione o status da tarefa.',
-    },
-  ),
+  status: z
+    .enum([TaskStatus.PENDING, TaskStatus.IN_PROGRESS, TaskStatus.DONE])
+    .optional(),
 })
 
 type IAddTaskFormData = z.infer<typeof TaskSchema>
@@ -69,9 +65,9 @@ export function FormContainer(props: Props) {
   const form = useForm<IAddTaskFormData>({
     resolver: zodResolver(TaskSchema),
     defaultValues: {
-      description: '',
-      name: '',
-      status: undefined,
+      name: toUpdateModalTask?.name ?? '',
+      description: toUpdateModalTask?.description ?? '',
+      status: toUpdateModalTask?.status,
     },
   })
 
@@ -79,14 +75,6 @@ export function FormContainer(props: Props) {
     formState: { isSubmitting },
     reset,
   } = form
-
-  useEffect(() => {
-    reset({
-      name: toUpdateModalTask?.name,
-      description: toUpdateModalTask?.description,
-      status: toUpdateModalTask?.status,
-    })
-  }, [reset, toUpdateModalTask])
 
   function onSubmit(TaskData: IAddTaskFormData) {
     if (!toUpdateModalTask) {
@@ -156,14 +144,17 @@ export function FormContainer(props: Props) {
             name="status"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Prioridade</FormLabel>
+                <FormLabel>Status</FormLabel>
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Selecione a prioridade" />
+                    <SelectTrigger className="w-full">
+                      <SelectValue
+                        className="w-full"
+                        placeholder="Selecione o status"
+                      />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>

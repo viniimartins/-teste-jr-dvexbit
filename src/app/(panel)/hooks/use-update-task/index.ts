@@ -10,6 +10,7 @@ interface Task {
   id: string
   name: string
   description: string
+  status?: string
 }
 
 export interface UpdateTask {
@@ -32,24 +33,24 @@ export function useUpdateTask({ queryKey }: QueryKeyProps) {
   return useMutation({
     mutationFn: update,
     mutationKey: ['update-task'],
-    onMutate: async ({ task: { description, name, id } }) => {
+    onMutate: async ({ task: { description, name, id, status } }) => {
       await queryClient.cancelQueries({ queryKey })
 
-      const previousItems = queryClient.getQueryData<ITask[]>(queryKey)
+      const previousTasks = queryClient.getQueryData<ITask[]>(queryKey)
 
       queryClient.setQueryData(queryKey, (old?: ITask[]) => {
         if (old) {
           return old.map((task) =>
-            task.id === id ? { ...task, description, name } : task,
+            task.id === id ? { ...task, description, name, status } : task,
           )
         }
         return old
       })
 
-      return { previousItems }
+      return { previousTasks }
     },
     onError: (_error, _variables, context) => {
-      queryClient.setQueryData(queryKey, context?.previousItems)
+      queryClient.setQueryData(queryKey, context?.previousTasks)
       toast('Opss, algo deu errado!', {
         description: 'Erro ao editar a task.',
       })

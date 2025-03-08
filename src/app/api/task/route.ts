@@ -10,12 +10,14 @@ export async function GET(request: Request) {
   const decodedToken = authenticateUser(request) as DecodedToken
   const { searchParams } = new URL(request.url)
 
-  const statusFilter = searchParams.get('status')
+  const status = searchParams.get('status')
+  const name = searchParams.get('name')
 
   const tasks = await prisma.task.findMany({
     where: {
       user_id: decodedToken.id,
-      ...(statusFilter && { status: statusFilter as TaskStatus }),
+      ...(name && { contains: name }),
+      ...(status && { status: status as TaskStatus }),
     },
   })
 
@@ -27,7 +29,7 @@ export async function POST(request: Request) {
 
   const { name, description } = await request.json()
 
-  const newItem = await prisma.task.create({
+  const newTask = await prisma.task.create({
     data: {
       name,
       description,
@@ -35,5 +37,5 @@ export async function POST(request: Request) {
     },
   })
 
-  return NextResponse.json(newItem, { status: 201 })
+  return NextResponse.json(newTask, { status: 201 })
 }

@@ -5,7 +5,7 @@ const mock: ITask = {
   description: 'Teste',
   name: 'Teste',
   status: 'DONE',
-  createdAt: Date.now().toString(),
+  createdAt: new Date().toISOString(),
 }
 
 const content = Array.from({ length: 8 }, (_, index) => ({
