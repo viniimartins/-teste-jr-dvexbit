@@ -4,9 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npm run prisma:migrate && npm run prisma:generate && next build",
     "start": "next start",
-    "lint": "next lint --no-cache --max-warnings=0 --fix"
+    "lint": "next lint --no-cache --max-warnings=0 --fix",
+    "prisma:migrate": "prisma migrate deploy",
+    "prisma:generate": "prisma generate"
   },
   "dependencies": {
     "@hookform/resolvers": "^4.1.3",
