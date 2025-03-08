@@ -109,14 +109,14 @@ export function Content() {
 
   return (
     <>
-      <div className="flex w-full justify-between">
-        <div className="flex gap-4">
-          <div className="relative">
+      <div className="flex w-full flex-col justify-between gap-4 sm:flex-row">
+        <div className="flex w-full flex-col gap-4 sm:flex-row">
+          <div className="relative w-full">
             <Search className="text-muted-foreground absolute top-2.5 left-2 h-4 w-4" />
             <Input
               placeholder="Pesquisar por nome"
               {...register('name')}
-              className="w-50 pl-8"
+              className="w-full pl-8"
             />
           </div>
 
@@ -124,11 +124,11 @@ export function Content() {
             onValueChange={(value: TaskStatus) => setValue('status', value)}
             defaultValue={searchStatusValue}
           >
-            <SelectTrigger className="w-56">
+            <SelectTrigger className="w-full">
               <SelectValue placeholder="Selecione o status" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value={TaskStatus.DONE}>Concluido</SelectItem>
+              <SelectItem value={TaskStatus.DONE}>Concluído</SelectItem>
               <SelectItem value={TaskStatus.IN_PROGRESS}>
                 Em progresso
               </SelectItem>
@@ -140,7 +140,7 @@ export function Content() {
         <Button onClick={() => actionsModalTask.open()}>Adicionar Task</Button>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
         {tasks?.length === 0 && (
           <p className="text-2xl">
             Nenhuma{' '}
