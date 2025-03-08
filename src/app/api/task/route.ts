@@ -1,39 +1,37 @@
 import type { TaskStatus } from '@prisma/client'
 import { NextResponse } from 'next/server'
 
-import type { ITask } from '@/app/(panel)/types'
 import prisma from '@/lib/prisma'
+import type { DecodedToken } from '@/types/decoded-token'
 
-export async function GET() {
-  const tasks = await prisma.task.findMany()
+import { authenticateUser } from './utils/auth'
 
-  const groupedTasks: Record<TaskStatus, ITask[]> = {
-    PENDING: [],
-    IN_PROGRESS: [],
-    DONE: [],
-  }
+export async function GET(request: Request) {
+  const decodedToken = authenticateUser(request) as DecodedToken
+  const { searchParams } = new URL(request.url)
 
-  tasks.forEach((task) => {
-    const taskWithStringDate = {
-      ...task,
-      createdAt: task.createdAt.toISOString(),
-    }
+  const statusFilter = searchParams.get('status')
 
-    if (task.status in groupedTasks) {
-      groupedTasks[task.status as TaskStatus].push(taskWithStringDate)
-    }
+  const tasks = await prisma.task.findMany({
+    where: {
+      user_id: decodedToken.id,
+      ...(statusFilter && { status: statusFilter as TaskStatus }),
+    },
   })
 
-  return NextResponse.json(groupedTasks)
+  return NextResponse.json(tasks)
 }
 
 export async function POST(request: Request) {
+  const decodedToken = authenticateUser(request) as DecodedToken
+
   const { name, description } = await request.json()
 
   const newItem = await prisma.task.create({
     data: {
       name,
       description,
+      user_id: decodedToken.id,
     },
   })
 
