@@ -58,3 +58,5 @@ npm run dev
 ```
 
 O projeto estará disponível em http://localhost:3000.
+
+![image](https://github.com/user-attachments/assets/dceae9ca-2ee3-42a2-8825-e0b9b69367e5)
