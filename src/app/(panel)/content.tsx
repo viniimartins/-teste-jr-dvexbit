@@ -189,16 +189,18 @@ export function Content() {
                   </DropdownMenu>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-muted-foreground line-clamp-10 text-base">
+                  <p className="text-muted-foreground line-clamp-8 overflow-auto text-base">
                     {description}
                   </p>
                 </CardContent>
-                <CardFooter className="m-0 mt-auto flex justify-between">
+                <CardFooter className="m-0 mt-auto flex items-end justify-between">
                   <time className="text-xs font-medium">
                     {format(createdAt, 'dd/MM/yyyy')}
                   </time>
 
-                  <Badge variant={variant}>{statusName}</Badge>
+                  <Badge className="h-8" variant={variant}>
+                    {statusName}
+                  </Badge>
                 </CardFooter>
               </Card>
             )

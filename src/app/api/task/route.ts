@@ -27,12 +27,13 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   const decodedToken = authenticateUser(request) as DecodedToken
 
-  const { name, description } = await request.json()
+  const { name, description, status } = await request.json()
 
   const newTask = await prisma.task.create({
     data: {
       name,
       description,
+      status,
       user_id: decodedToken.id,
     },
   })

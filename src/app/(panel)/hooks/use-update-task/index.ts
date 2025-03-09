@@ -1,3 +1,4 @@
+import type { TaskStatus } from '@prisma/client'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 
@@ -10,7 +11,7 @@ interface Task {
   id: string
   name: string
   description: string
-  status?: string
+  status?: TaskStatus
 }
 
 export interface UpdateTask {
