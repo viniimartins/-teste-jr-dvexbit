@@ -60,3 +60,11 @@ npm run dev
 O projeto estará disponível em http://localhost:3000.
 
 ![image](https://github.com/user-attachments/assets/dceae9ca-2ee3-42a2-8825-e0b9b69367e5)
+![image](https://github.com/user-attachments/assets/7050c56c-4902-4f12-be2d-53b11b34e7c5)
+![image](https://github.com/user-attachments/assets/1e065858-5aeb-4dba-8a0e-2015fc0fb9bd)
+![image](https://github.com/user-attachments/assets/e57c9f3c-8ba3-487b-8f2e-127a5b4d961a)
+![image](https://github.com/user-attachments/assets/6c315739-3f83-42c4-816a-8a8cc93cf01e)
+
+
+
+
